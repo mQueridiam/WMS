@@ -15,3 +15,7 @@ Route::get('/', function()
 {
 	return View::make('hello');
 });
+
+Route::resource('warehouses', 'WarehousesController');
+
+Route::resource('products', 'ProductsController');
