@@ -9,7 +9,8 @@ class WarehousesController extends BaseController {
 	 */
 	public function index()
 	{
-        return View::make('warehouses.index');
+        $whs = Warehouse::orderBy('name', 'ASC')->get();
+        return View::make('warehouses.index')->with('warehouses', $whs);
 	}
 
 	/**
@@ -29,7 +30,22 @@ class WarehousesController extends BaseController {
 	 */
 	public function store()
 	{
-		//
+		$input = Input::all();
+
+		$rules = array('name' => 'required');
+
+		$v = Validator::make($input, $rules);
+
+		if ($v->passes())
+		{
+			$wh = new Warehouse;
+			$wh->name = Input::get('name');
+			$wh->save();
+
+			return Redirect::route('warehouses.index');
+		}
+
+		return Redirect::back()->withInput()->withErrors($v);
 	}
 
 	/**
@@ -51,7 +67,14 @@ class WarehousesController extends BaseController {
 	 */
 	public function edit($id)
 	{
-        return View::make('warehouses.edit');
+        $wh = Warehouse::find($id);
+
+        if (is_null($wh)) 
+        {
+        	return Redirect::route('warehouses.index');
+        }
+
+        return View::make('warehouses.edit')->with('warehouse', $wh);
 	}
 
 	/**
@@ -62,7 +85,20 @@ class WarehousesController extends BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		$input = array_except(Input::all(), '_method');
+
+		$rules = array('name' => 'required');
+
+		$v = Validator::make($input, $rules);
+
+		if ($v->passes())
+		{
+			Warehouse::find($id)->update($input);
+
+			return Redirect::route('warehouses.index');
+		}
+
+		return Redirect::back()->withInput()->withErrors($v);
 	}
 
 	/**
@@ -73,7 +109,38 @@ class WarehousesController extends BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		Warehouse::find($id)->delete();
+
+		return Redirect::route('warehouses.index');
+	}
+
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return Response
+	 */
+	public function indexProducts($id)
+	{
+        $wh = Warehouse::find($id);
+
+        if (is_null($wh)) 
+        {
+        	return Redirect::route('warehouses.index');
+       	}
+
+        return View::make('warehouses.indexProducts')->with(array('warehouse' => $wh, 'products' => $wh->products));
+	}
+	
+	public function indexStockmoves($id)
+	{
+        $wh = Warehouse::find($id);
+
+        if (is_null($wh)) 
+        {
+        	return Redirect::route('warehouses.index');
+       	}
+
+        return View::make('warehouses.indexStockmoves')->with(array('warehouse' => $wh, 'stockmoves' => $wh->stockmoves));
 	}
 
 }
