@@ -5,6 +5,9 @@
 	<meta name="viewport" content="width=device-width">
 	<title></title>
 	{{ HTML::style('//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css') }}
+
+	@yield('customcss')
+
 </head>
 <body>
 <div class="navbar navbar-inverse navbar-fixed-top">
@@ -35,6 +38,8 @@
 
 {{ HTML::script('http://code.jquery.com/jquery-1.10.1.min.js') }}
 {{ HTML::script('//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js') }}
+
+@yield('customjs')
 
 </body>
 </html>

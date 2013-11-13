@@ -21,7 +21,9 @@ class StockmovesController extends BaseController
 	 */
 	public function create()
 	{
-		return View::make('stockmoves.create');
+		$whList = Warehouse::lists('name', 'id');
+
+		return View::make('stockmoves.create')->with('whList', $whList);
 	}
 
 	/**

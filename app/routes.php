@@ -30,6 +30,30 @@ Route::resource('products', 'ProductsController');
 
 /* ********************************************************** */
 
+Route::resource('stockmoves', 'StockmovesController');
+
+/* ********************************************************** */
+
+Route::get('productsjson', function()
+{
+ 
+    // $products = DB::table("products")->get();
+    $textFilter =  Input::get('query') ;
+	$products =  Product::where('name','LIKE', '%' . $textFilter . '%')
+						->orderBy('name', 'ASC')
+						->get();
+    
+    return Response::json( $products );
+    
+    /*
+    return Response::json(array(
+        "products"        =>        $products
+    ));
+
+	echo 'So far, so good';
+	*/
+});
+
 Route::get('test', function()
 {
 	$wh_id = 21; // 21, 22
@@ -43,5 +67,3 @@ Route::get('test', function()
 
 	echo 'So far, so good';
 });
-
-Route::resource('stockmoves', 'StockmovesController');
