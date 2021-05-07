@@ -1,6 +1,6 @@
 WMS
 ==========
 
-Warehouse Management System with Laravel 4.
+Warehouse Management System with Laravel.
 
-Not ready for testing (some features must be added), but you can have a look.
+Coming soon.
